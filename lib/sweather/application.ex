@@ -4,6 +4,7 @@ defmodule Sweather.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
   @impl true
   def start(_type, _args) do
@@ -13,9 +14,7 @@ defmodule Sweather.Application do
 
     children =
       [
-        # Children for all targets
-        # Starts a worker by calling: Sweather.Worker.start_link(arg)
-        # {Sweather.Worker, arg},
+        {Plug.Cowboy, scheme: :http, plug: Sweather.Router, options: [port: 4000]}
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)
@@ -27,14 +26,16 @@ defmodule Sweather.Application do
       # Children that only run on the host
       # Starts a worker by calling: Sweather.Worker.start_link(arg)
       # {Sweather.Worker, arg},
+      {Sweather.FakeBMP280, name: Sweather.BMP280}
     ]
   end
 
-  def children(_target) do
+  def children(target) do
     [
       # Children for all targets except host
       # Starts a worker by calling: Sweather.Worker.start_link(arg)
       # {Sweather.Worker, arg},
+      {BPM280, bus_name: "i2c-1", bus_address: 0x76, name: Sweather.BMP280}
     ]
   end
 

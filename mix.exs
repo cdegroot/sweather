@@ -57,6 +57,7 @@ defmodule Sweather.MixProject do
 
       # Sweather dependencies
       {:plug, "~> 1.13"},
+      {:plug_cowboy, "~> 2.5"},
       {:bmp280, "~> 0.2.11"}
     ]
   end
