@@ -1,6 +1,6 @@
 # Sweather
 
-**TODO: Add description**
+Simple Weather. Very simple Nerves app to bridge the BMP280 to Prometheus.
 
 ## Targets
 
